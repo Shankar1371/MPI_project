@@ -1,0 +1,26 @@
+# build artifacts
+build/
+*.o
+*.obj
+*.out
+*.exe
+*.a
+*.so
+*.dll
+
+# VS Code
+.vscode/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Binaries
+tsp
+hello_mpi
+
+# Misc
+.DS_Store
