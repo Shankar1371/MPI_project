@@ -6,6 +6,7 @@
 #include <time.h>
 #include <errno.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 
 // --- tiny portable RNG ---
@@ -197,17 +198,19 @@ int pop_argmax(const Population *p){
 }
 
 // insertion sort by fitness (ascending)
-void pop_sort_by_fitness(Population *p){
-    for(int i=1;i<p->pop_size;i++){
-        Individual key = p->inds[i];
-        int j=i-1;
-        while(j>=0 && p->inds[j].fitness > key.fitness){
-            p->inds[j+1]=p->inds[j]; 
-            j--;
-        }
-        p->inds[j+1]=key;
-    }
+
+static int cmp_indiv(const void *a, const void *b) {
+    const Individual *ia = (const Individual*)a;
+    const Individual *ib = (const Individual*)b;
+    if (ia->fitness < ib->fitness) return -1;
+    if (ia->fitness > ib->fitness) return 1;
+    return 0;
 }
+
+void pop_sort_by_fitness(Population *p){
+    qsort(p->inds, (size_t)p->pop_size, sizeof(Individual), cmp_indiv);
+}
+
 
 // ---------------- Operators ----------------
 int tournament_select(const Population *p, int k, unsigned int *rng){
@@ -219,50 +222,51 @@ int tournament_select(const Population *p, int k, unsigned int *rng){
     return best;
 }
 
-// Safe PMX: maps until index leaves [a,b], avoiding infinite cycles
+// helpers (top of ga.c if not present)
 static int find_pos(const int *perm, int n, int val) {
     for (int i = 0; i < n; i++) if (perm[i] == val) return i;
     return -1;
 }
 
+// Safe PMX: maps until index leaves [a,b], avoids infinite cycles and OOB
 void pmx(const int *p1, const int *p2, int n, int *child, unsigned int *rng){
-    // choose cut points
-    int a = rng_randint(rng, n - 1);
-    int b = rng_randint(rng, n - 1);
+    // choose cut points (use your rng; or replace rng_randint with your rand/rand_r)
+    int a = (int)(rng ? (unsigned)rng[0] % n : rand() % n);
+    int b = (int)(rng ? ((unsigned)rng[0] * 1103515245u + 12345u) % n : rand() % n);
     if (a > b) { int t = a; a = b; b = t; }
 
-    // init child with -1
     for (int i = 0; i < n; i++) child[i] = -1;
 
     // 1) copy segment from p1
     for (int i = a; i <= b; i++) child[i] = p1[i];
 
-    // 2) for each position i in [a,b], place p2[i] if missing
+    // 2) place p2’s genes: map until pos exits [a,b]
     for (int i = a; i <= b; i++) {
         int val = p2[i];
 
-        // skip if already present in child
+        // if already present in the segment, skip
         int present = 0;
         for (int k = a; k <= b; k++) if (child[k] == val) { present = 1; break; }
         if (present) continue;
 
-        // find where val sits in p1
         int pos = find_pos(p1, n, val);
-
-        // follow mapping until we land outside [a,b]
+        // follow mapping while pos inside [a,b]
         while (pos >= a && pos <= b) {
             val = p2[pos];
             pos = find_pos(p1, n, val);
+            if (pos < 0 || pos >= n) break; // safety
         }
-        // pos is now outside [a,b] -> place original p2[i] there
-        child[pos] = p2[i];
+        if (pos >= 0 && pos < n && child[pos] == -1) {
+            child[pos] = p2[i];
+        }
     }
 
-    // 3) fill remaining -1 from p2 in order
+    // 3) fill remaining from p2
     for (int i = 0; i < n; i++) {
         if (child[i] == -1) child[i] = p2[i];
     }
 }
+
 
 
 void mutate_swap(int *perm, int n, double mut_rate, unsigned int *rng){
