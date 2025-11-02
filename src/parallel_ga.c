@@ -6,65 +6,59 @@
 #include <float.h>
 #include <time.h>
 
-// Migrate the single best tour across islands (gather -> pick best -> bcast -> replace local worst).
+// Migrate the top 5% tour across islands (gather -> pick best -> bcast -> replace local worst).
 static void migrate_best(const TSP *t, const GAParams *P, const MPIInfo *mpi,
                          Population *pop, unsigned int *rng)
 {
-    (void)P;   // not used in this simple migration
-    (void)rng; // not used here
+    (void)rng;
 
-    const int n = t->n;
+    int n = t->n;
+    int top = (int)(0.05 * pop->pop_size);
+    if (top < 1) top = 1;
 
-    // Pack my best tour
-    const int my_best_idx = pop_argmin(pop);
-    int *sendbuf = pop->inds[my_best_idx].perm;
+    // Allocate send buffer for top 5%
+    int send_count = top * n;
+    int *sendbuf = malloc(sizeof(int) * send_count);
+    for (int i = 0; i < top; i++) {
+        memcpy(sendbuf + i * n, pop->inds[i].perm, sizeof(int) * n);
+    }
 
-    // Root receives all best tours
     int *allbuf = NULL;
     if (mpi->rank == 0) {
-        allbuf = (int*)malloc(sizeof(int) * n * mpi->size);
-        if (!allbuf) {
-            fprintf(stderr, "[migrate][ERROR] OOM for allbuf\n");
-            MPI_Abort(MPI_COMM_WORLD, 1);
-        }
+        allbuf = malloc(sizeof(int) * send_count * mpi->size);
     }
 
-    // Gather best perms at root
-    MPI_Gather(sendbuf, n, MPI_INT, allbuf, n, MPI_INT, 0, MPI_COMM_WORLD);
+    // Gather elites
+    MPI_Gather(sendbuf, send_count, MPI_INT, allbuf, send_count, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Root picks global best
-    int *global_best_perm = (int*)malloc(sizeof(int) * n);  // allocate on ALL ranks (needed for Bcast)
-    if (!global_best_perm) {
-        fprintf(stderr, "[migrate][ERROR] OOM for global_best_perm\n");
-        MPI_Abort(MPI_COMM_WORLD, 1);
-    }
-
+    // Root finds global best among all
+    int *global_best_perm = malloc(sizeof(int) * n);
     if (mpi->rank == 0) {
         double bestL = DBL_MAX;
-        // default to rank 0's best
-        memcpy(global_best_perm, allbuf, sizeof(int) * n);
-
         for (int r = 0; r < mpi->size; r++) {
-            const double L = tsp_tour_length(t, allbuf + r * n);
-            if (L < bestL) {
-                bestL = L;
-                memcpy(global_best_perm, allbuf + r * n, sizeof(int) * n);
+            for (int e = 0; e < top; e++) {
+                double L = tsp_tour_length(t, allbuf + (r * top + e) * n);
+                if (L < bestL) {
+                    bestL = L;
+                    memcpy(global_best_perm, allbuf + (r * top + e) * n, sizeof(int) * n);
+                }
             }
         }
     }
 
-    // Broadcast the global best to everyone
+    // Broadcast global best tour
     MPI_Bcast(global_best_perm, n, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Replace local worst with the global best (elitism-based migration)
-    const int worst = pop_argmax(pop);
+    // Replace local worst with that best
+    int worst = pop_argmax(pop);
     memcpy(pop->inds[worst].perm, global_best_perm, sizeof(int) * n);
     pop->inds[worst].fitness = tsp_tour_length(t, pop->inds[worst].perm);
 
-    // Cleanup
-    if (mpi->rank == 0) free(allbuf);
+    free(sendbuf);
     free(global_best_perm);
+    if (mpi->rank == 0) free(allbuf);
 }
+
 
 void parallel_ga_run(const TSP *t, const GAParams *P, const MPIInfo *mpi,
                      Individual *global_best, double *elapsed)

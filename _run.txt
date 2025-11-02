@@ -1,0 +1,98 @@
+Parallel GA TSP | islands=8, pop/island=25, gens=600, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: data/berlin52.txt
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[run] islands=8 pop/island=25 gens=600 twoopt=1 migInt=50
+[run] gen=10 best=7964.568869
+[run] gen=20 best=7964.568869
+[run] gen=30 best=7964.568869
+[run] gen=40 best=7964.568869
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[run] gen=50 best=7544.365902
+[run] gen=60 best=7544.365902
+[run] gen=70 best=7544.365902
+[run] gen=80 best=7544.365902
+[run] gen=90 best=7544.365902
+[run] gen=100 best=7544.365902
+[run] gen=110 best=7544.365902
+[run] gen=120 best=7544.365902
+[run] gen=130 best=7544.365902
+[run] gen=140 best=7544.365902
+[run] gen=150 best=7544.365902
+[run] gen=160 best=7544.365902
+[run] gen=170 best=7544.365902
+[run] gen=180 best=7544.365902
+[run] gen=190 best=7544.365902
+[run] gen=200 best=7544.365902
+[run] gen=210 best=7544.365902
+[run] gen=220 best=7544.365902
+[run] gen=230 best=7544.365902
+[run] gen=240 best=7544.365902
+[run] gen=250 best=7544.365902
+[run] gen=260 best=7544.365902
+[run] gen=270 best=7544.365902
+[run] gen=280 best=7544.365902
+[run] gen=290 best=7544.365902
+[run] gen=300 best=7544.365902
+[run] gen=310 best=7544.365902
+[run] gen=320 best=7544.365902
+[run] gen=330 best=7544.365902
+[run] gen=340 best=7544.365902
+[run] gen=350 best=7544.365902
+[run] gen=360 best=7544.365902
+[run] gen=370 best=7544.365902
+[run] gen=380 best=7544.365902
+[run] gen=390 best=7544.365902
+[run] gen=400 best=7544.365902
+[run] gen=410 best=7544.365902
+[run] gen=420 best=7544.365902
+[run] gen=430 best=7544.365902
+[run] gen=440 best=7544.365902
+[run] gen=450 best=7544.365902
+[run] gen=460 best=7544.365902
+[run] gen=470 best=7544.365902
+[run] gen=480 best=7544.365902
+[run] gen=490 best=7544.365902
+[run] gen=500 best=7544.365902
+[run] gen=510 best=7544.365902
+[run] gen=520 best=7544.365902
+[run] gen=530 best=7544.365902
+[run] gen=540 best=7544.365902
+[run] gen=550 best=7544.365902
+[run] gen=560 best=7544.365902
+[run] gen=570 best=7544.365902
+[run] gen=580 best=7544.365902
+[run] gen=590 best=7544.365902
+[run] gen=600 best=7544.365902
+Best tour length: 7544.365902
+Elapsed (parallel, p=8): 0.0475 s
+Best tour: 3 24 11 27 26 25 46 12 13 51 10 50 32 42 9 8 7 40 18 44 31 48 0 21 30 17 2 16 20 41 6 1 29 22 19 49 28 15 45 43 33 34 35 38 39 36 37 47 23 4 14 5 

@@ -1,48 +1,35 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DATA="${1:-data/cities.txt}"
-GENS="${2:-600}"      # adjust as needed
-POP_TOTAL="${3:-800}" # total population across all processes
-REPS="${4:-3}"        # repeats per config for smoothing
-OUT="${5:-results.csv}"
+# Usage: ./bench.sh <dataset> <generations> <total_pop> <out_csv>
+# Example: ./bench.sh data/berlin52.txt 600 200 results.csv
+DATASET="${1:-data/berlin52.txt}"
+GENS="${2:-600}"
+TOTAL_POP="${3:-200}"
+OUT="${4:-results.csv}"
 
-# header if file doesn't exist
-if [ ! -f "$OUT" ]; then
-  echo "dataset,p,pop_total,gens,cx,mut,k,mig_int,twoopt,trial,elapsed,best" > "$OUT"
-fi
+# process counts to test
+PROCS=(1 2 4 8)
 
-# global GA knobs (match your defaults)
-CX="${CX:-0.8}"
-MUT="${MUT:-0.05}"
-K="${K:-4}"
-MIGINT="${MIGINT:-50}"
-TWOOPT="${TWOOPT:-1}" # 1=on, 0=off
+# start fresh
+echo "p,elapsed" > "$OUT"
 
-for P in 1 2 4 8 16 32; do
-  # keep TOTAL population constant; scale per-island pop
-  POP_ISLAND=$(( POP_TOTAL / P ))
-  [ $POP_ISLAND -lt 10 ] && POP_ISLAND=10
+for p in "${PROCS[@]}"; do
+  # keep total population roughly constant across p
+  POP=$(( TOTAL_POP / p ))
+  if [ "$POP" -lt 10 ]; then POP=10; fi
 
-  for t in $(seq 1 $REPS); do
-    # seed varies by trial for averaging
-    SEED=$(( 42 + t ))
-    # run
-    OUTTXT=$(mpirun -np "$P" ./tsp "$DATA" \
-      --generations "$GENS" --pop "$POP_ISLAND" \
-      --cx "$CX" --mut "$MUT" --k "$K" \
-      --mig-int "$MIGINT" $([ "$TWOOPT" -eq 0 ] && echo --no-twoopt) \
-      --seed "$SEED")
+  echo "==> Running p=$p, gens=$GENS, pop/island=$POP"
+  # single definitive run per p (keeps 1 row per p for plotting scripts expecting uniqueness)
+  mpirun -np "$p" ./tsp "$DATASET" --generations "$GENS" --pop "$POP" --mig-int 50 > _run.txt
 
-    # parse "Elapsed" and "Best tour length"
-    ELAPSED=$(echo "$OUTTXT" | sed -n 's/^Elapsed (parallel, p=[0-9][0-9]*): \([0-9.]*\) s/\1/p')
-    BEST=$(echo "$OUTTXT" | sed -n 's/^Best tour length: \([0-9.]*\)$/\1/p')
+  # Extract seconds from: "Elapsed (parallel, p=X): Y.s s"
+  SEC=$(grep -oE 'Elapsed \(parallel, p=[0-9]+\): [0-9.]+ s' _run.txt | awk '{print $(NF-1)}')
+  if [ -z "$SEC" ]; then
+    echo "ERROR: Could not parse elapsed time for p=$p"; cat _run.txt; exit 1
+  fi
 
-    # fallback parsing (busybox sed quirks)
-    if [ -z "$ELAPSED" ]; then ELAPSED=$(echo "$OUTTXT" | grep -Eo 'Elapsed \(parallel, p=[0-9]+\): [0-9.]+ s' | awk '{print $4}'); fi
-    if [ -z "$BEST" ]; then BEST=$(echo "$OUTTXT" | grep -Eo '^Best tour length: [0-9.]+' | awk '{print $4}'); fi
-
-    echo "$DATA,$P,$POP_TOTAL,$GENS,$CX,$MUT,$K,$MIGINT,$TWOOPT,$t,$ELAPSED,$BEST" | tee -a "$OUT"
-    sleep 0.2
-  done
+  echo "$p,$SEC" >> "$OUT"
 done
+
+echo "Wrote $OUT"
