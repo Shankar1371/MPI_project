@@ -74,7 +74,7 @@ make clean && make
 This builds the tsp executable in the project root.
 
 ####
-▶ Running Examples
+ Running Examples
 ######
 Example 1: Serial (no 2-opt, no migration)
 mpirun -np 1 ./tsp data/berlin52.txt --generations 200 --pop 100 --no-twoopt --mig-int 0
