@@ -1,98 +1,174 @@
-Parallel GA TSP | islands=8, pop/island=25, gens=600, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
-Dataset: data/berlin52.txt
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[run] islands=8 pop/island=25 gens=600 twoopt=1 migInt=50
-[run] gen=10 best=7964.568869
-[run] gen=20 best=7964.568869
-[run] gen=30 best=7964.568869
-[run] gen=40 best=7964.568869
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[load] opening data/berlin52.txt
-[load] n=52
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
 [load] coords read ok; building dist matrix...
 [load] done
-[run] gen=50 best=7544.365902
-[run] gen=60 best=7544.365902
-[run] gen=70 best=7544.365902
-[run] gen=80 best=7544.365902
-[run] gen=90 best=7544.365902
-[run] gen=100 best=7544.365902
-[run] gen=110 best=7544.365902
-[run] gen=120 best=7544.365902
-[run] gen=130 best=7544.365902
-[run] gen=140 best=7544.365902
-[run] gen=150 best=7544.365902
-[run] gen=160 best=7544.365902
-[run] gen=170 best=7544.365902
-[run] gen=180 best=7544.365902
-[run] gen=190 best=7544.365902
-[run] gen=200 best=7544.365902
-[run] gen=210 best=7544.365902
-[run] gen=220 best=7544.365902
-[run] gen=230 best=7544.365902
-[run] gen=240 best=7544.365902
-[run] gen=250 best=7544.365902
-[run] gen=260 best=7544.365902
-[run] gen=270 best=7544.365902
-[run] gen=280 best=7544.365902
-[run] gen=290 best=7544.365902
-[run] gen=300 best=7544.365902
-[run] gen=310 best=7544.365902
-[run] gen=320 best=7544.365902
-[run] gen=330 best=7544.365902
-[run] gen=340 best=7544.365902
-[run] gen=350 best=7544.365902
-[run] gen=360 best=7544.365902
-[run] gen=370 best=7544.365902
-[run] gen=380 best=7544.365902
-[run] gen=390 best=7544.365902
-[run] gen=400 best=7544.365902
-[run] gen=410 best=7544.365902
-[run] gen=420 best=7544.365902
-[run] gen=430 best=7544.365902
-[run] gen=440 best=7544.365902
-[run] gen=450 best=7544.365902
-[run] gen=460 best=7544.365902
-[run] gen=470 best=7544.365902
-[run] gen=480 best=7544.365902
-[run] gen=490 best=7544.365902
-[run] gen=500 best=7544.365902
-[run] gen=510 best=7544.365902
-[run] gen=520 best=7544.365902
-[run] gen=530 best=7544.365902
-[run] gen=540 best=7544.365902
-[run] gen=550 best=7544.365902
-[run] gen=560 best=7544.365902
-[run] gen=570 best=7544.365902
-[run] gen=580 best=7544.365902
-[run] gen=590 best=7544.365902
-[run] gen=600 best=7544.365902
-Best tour length: 7544.365902
-Elapsed (parallel, p=8): 0.0475 s
-Best tour: 3 24 11 27 26 25 46 12 13 51 10 50 32 42 9 8 7 40 18 44 31 48 0 21 30 17 2 16 20 41 6 1 29 22 19 49 28 15 45 43 33 34 35 38 39 36 37 47 23 4 14 5 
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+Parallel GA TSP | islands=32, pop/island=12, gens=400, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: /home/shanks/mpi-project/data/pr439.txt
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[run] islands=32 pop/island=12 gens=400 twoopt=1 migInt=50
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[load] done
+[load] opening /home/shanks/mpi-project/data/pr439.txt
+[load] n=439
+[load] coords read ok; building dist matrix...
+[load] done
+[run] gen=10 best=112062.677600
+[run] gen=20 best=112062.677600
+[run] gen=30 best=112062.677600
+[run] gen=40 best=112062.677600
+[run] gen=50 best=109721.117748
+[run] gen=60 best=109721.117748
+[run] gen=70 best=109721.117748
+[run] gen=80 best=109721.117748
+[run] gen=90 best=109721.117748
+[run] gen=100 best=109283.970015
+[run] gen=110 best=109283.970015
+[run] gen=120 best=109283.970015
+[run] gen=130 best=109283.970015
+[run] gen=140 best=109283.970015
+[run] gen=150 best=109075.720810
+[run] gen=160 best=108975.714323
+[run] gen=170 best=108975.714323
+[run] gen=180 best=108975.714323
+[run] gen=190 best=108975.714323
+[run] gen=200 best=108831.831607
+[run] gen=210 best=108831.831607
+[run] gen=220 best=108831.831607
+[run] gen=230 best=108831.831607
+[run] gen=240 best=108831.831607
+[run] gen=250 best=108662.845917
+[run] gen=260 best=108662.845917
+[run] gen=270 best=108662.845917
+[run] gen=280 best=108662.845917
+[run] gen=290 best=108662.845917
+[run] gen=300 best=108557.714660
+[run] gen=310 best=108546.284994
+[run] gen=320 best=108536.655874
+[run] gen=330 best=108536.655874
+[run] gen=340 best=108536.655874
+[run] gen=350 best=108524.462839
+[run] gen=360 best=108524.462839
+[run] gen=370 best=108524.462839
+[run] gen=380 best=108524.462839
+[run] gen=390 best=108524.462839
+[run] gen=400 best=108514.845084
+Best tour length: 108514.845084
+Elapsed (parallel, p=32): 4.7154 s
+Best tour: 65 64 24 63 73 72 62 25 26 27 28 29 30 31 61 74 75 60 59 58 76 86 85 77 57 56 78 79 80 81 55 54 53 52 49 47 46 48 45 44 42 40 39 43 41 38 37 36 35 34 33 32 16 15 14 13 12 11 10 9 8 7 6 5 4 3 0 2 1 51 50 82 83 84 148 185 225 226 228 227 282 283 438 434 435 436 437 433 402 407 408 410 409 424 425 423 426 429 432 431 421 422 411 412 406 405 398 391 390 397 395 396 392 394 393 383 382 381 380 374 373 372 371 370 343 342 341 340 281 280 229 186 187 188 224 230 231 279 284 285 286 339 287 288 289 290 291 292 358 357 355 356 354 353 351 352 350 349 348 346 344 345 347 376 375 379 378 388 389 413 420 419 418 414 415 430 428 427 417 416 404 403 401 399 400 387 386 385 384 377 368 367 366 365 364 363 362 361 360 369 359 338 337 336 335 334 333 332 299 298 297 296 295 294 293 278 277 276 275 274 273 272 271 270 269 268 267 266 265 264 305 304 301 300 302 303 329 331 330 328 327 326 325 324 323 322 321 320 319 318 317 316 315 314 313 312 311 310 309 308 307 306 263 262 261 260 259 258 257 256 255 253 254 251 252 208 250 249 248 247 246 245 244 243 242 241 240 239 238 237 236 235 234 233 232 221 222 223 189 190 183 191 182 181 180 179 178 177 176 158 159 160 174 175 203 201 200 199 198 197 196 195 194 193 192 220 219 218 217 216 215 214 213 212 211 210 209 202 204 205 206 207 170 171 173 172 169 167 168 165 163 164 166 132 131 130 129 127 98 97 96 95 94 99 93 92 91 101 102 114 116 119 121 100 122 124 123 125 126 128 133 162 161 134 135 136 137 157 156 155 154 153 152 151 141 140 139 138 120 118 117 115 113 112 142 150 149 184 144 147 146 143 145 111 110 109 108 107 106 105 104 103 90 89 88 87 71 70 69 68 67 66 18 17 19 20 22 23 21 

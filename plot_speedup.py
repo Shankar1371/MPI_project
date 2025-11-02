@@ -1,39 +1,55 @@
-import pandas as pd
+#!/usr/bin/env python3
+import sys, csv
 import matplotlib.pyplot as plt
-import sys
 
-csv = sys.argv[1] if len(sys.argv) > 1 else "results.csv"
-df = pd.read_csv("results.csv")
+if len(sys.argv) < 2:
+    print("Usage: python3 plot_speedup.py results.csv [outfile_prefix]")
+    raise SystemExit(1)
 
-# Aggregate by p (use mean over trials)
-agg = df.groupby("p", as_index=False)["elapsed"].mean().sort_values("p")
-# Baseline T1 = mean elapsed when p=1
-T1 = agg.loc[agg["p"]==1, "elapsed"].values[0]
-agg["speedup"] = T1 / agg["elapsed"]
-agg["efficiency"] = agg["speedup"] / agg["p"]
+csv_path = sys.argv[1]
+prefix = sys.argv[2] if len(sys.argv) > 2 else ""
 
-print(agg)
+ps, times = [], []
+with open(csv_path, newline="") as f:
+    r = csv.DictReader(f)
+    for row in r:
+        try:
+            ps.append(int(row["p"]))
+            times.append(float(row["elapsed"]))
+        except Exception:
+            pass
 
-# Speedup plot
+if not ps:
+    print(f"ERROR: {csv_path} has no valid rows (need 'p,elapsed').")
+    raise SystemExit(2)
+
+pairs = sorted(zip(ps, times), key=lambda x: x[0])
+ps, times = zip(*pairs)
+T1 = dict(pairs).get(1, times[0])
+
+speedup = [T1/t for t in times]
+eff = [s/p for s, p in zip(speedup, ps)]
+
+# Speedup
 plt.figure()
-plt.plot(agg["p"], agg["speedup"], marker="o", label="Measured")
-plt.plot(agg["p"], agg["p"], linestyle="--", label="Ideal")
-plt.xlabel("Processes (p)")
-plt.ylabel("Speedup")
+plt.plot(ps, speedup, marker="o", label="Measured")
+plt.plot(ps, ps, linestyle="--", label="Ideal")
 plt.title("Speedup vs Processes")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("speedup.png", dpi=160)
+plt.xlabel("Processes (p)"); plt.ylabel("Speedup")
+plt.xticks(ps); plt.grid(True, linestyle=":"); plt.legend()
+out1 = f"{prefix}speedup.png" if prefix else "speedup.png"
+plt.savefig(out1, bbox_inches="tight", dpi=130)
 
-# Efficiency plot
+# Efficiency
 plt.figure()
-plt.plot(agg["p"], agg["efficiency"], marker="o")
-plt.xlabel("Processes (p)")
-plt.ylabel("Efficiency = Speedup / p")
+plt.plot(ps, eff, marker="o")
 plt.title("Parallel Efficiency")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("efficiency.png", dpi=160)
+plt.xlabel("Processes (p)"); plt.ylabel("Efficiency = Speedup / p")
+plt.xticks(ps); plt.ylim(0, 1.05); plt.grid(True, linestyle=":")
+out2 = f"{prefix}efficiency.png" if prefix else "efficiency.png"
+plt.savefig(out2, bbox_inches="tight", dpi=130)
 
-print("Saved: speedup.png, efficiency.png")
+print("p,elapsed,Speedup,Efficiency")
+for p, t, s, e in zip(ps, times, speedup, eff):
+    print(f"{p},{t:.6f},{s:.3f},{e:.3f}")
+print(f"Saved: {out1}, {out2}")
