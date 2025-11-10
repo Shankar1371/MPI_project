@@ -1,0 +1,1 @@
+Best tour length: 108814.814219
