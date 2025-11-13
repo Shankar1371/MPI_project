@@ -1,0 +1,6 @@
+[load] opening data/pr1002.txt
+[load] opening data/pr1002.txt
+[load] opening data/pr1002.txt
+Parallel GA TSP | islands=4, pop/island=800, gens=50, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: data/pr1002.txt
+[load] opening data/pr1002.txt
