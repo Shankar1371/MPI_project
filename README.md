@@ -315,7 +315,7 @@ Every migration_interval generations, the top 5% individuals are gathered and th
 
 ### How to Rebuild After Code Changes
 Whenever you update *.c or *.h files:
-
+  
 
 make clean && make
 Environment and Assumptions
