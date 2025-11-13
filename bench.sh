@@ -1,32 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DATASET="${1:-data/berlin52.txt}"
-GENS="${2:-50}"          # <- cap at 50
-TOTAL_POP="${3:-200}"
-OUT="${4:-results.csv}"
+# Usage: ./bench.sh DATASET TOTAL_POP OUT_CSV
+# Example: ./bench.sh data/berlin52.txt 400 results_berlin52.csv
 
-DATASET="$(readlink -f "$DATASET")"
-PROCS=(1 2 4 8)          # keep to your machine; add 16/32 only if needed
+if [[ $# -ne 3 ]]; then
+  echo "Usage: $0 DATASET TOTAL_POP OUT_CSV" >&2
+  exit 1
+fi
+
+DATASET="$1"
+TOTAL_POP="$2"
+OUT="$3"
+
+# basic validation
+if ! [[ "$TOTAL_POP" =~ ^[0-9]+$ ]]; then
+  echo "[error] TOTAL_POP must be an integer, got '$TOTAL_POP'" >&2
+  exit 1
+fi
+
+# we always use 50 generations for this experiment
+GENS=50
+
+# processors we want: 1,2,4,8,16,32
+PROCS=(1 2 4 8 16 32)
 
 echo "p,elapsed" > "$OUT"
+
 for p in "${PROCS[@]}"; do
+  # keep total population roughly constant; divide across islands
   POP=$(( TOTAL_POP / p ))
-  if [ "$POP" -lt 10 ]; then POP=10; fi
-  echo "==> Running p=$p, gens=$GENS, pop/island=$POP"
-  mpirun --oversubscribe --wd "$PWD" -np "$p" \
-    ./tsp "$DATASET" --generations "$GENS" --pop "$POP" --mig-int 50 \
+  (( POP < 10 )) && POP=10   # safety floor
+
+  echo "==> p=$p gens=$GENS pop/island=$POP"
+  mpirun --oversubscribe -np "$p" ./tsp "$DATASET" \
+    --generations "$GENS" --pop "$POP" --mig-int 50 \
     | tee _run.txt
 
-  # grab elapsed
-  SEC=$(grep -oE 'Elapsed \(parallel, p=[0-9]+\): [0-9.]+ s' _run.txt | awk '{print $(NF-1)}' | tail -n1)
-  if [ -z "${SEC:-}" ]; then echo "ERROR: elapsed not found"; exit 1; fi
-  echo "$p,$SEC" >> "$OUT"
+  # grab the last "Elapsed (parallel...)" line
+  sec=$(grep -oE 'Elapsed \(parallel, p=[0-9]+\): [0-9.]+ s' _run.txt \
+        | awk '{print $(NF-1)}' \
+        | tail -n 1)
 
-  # also capture the best tour & length for p=4 (or last run) -> for plotting the route
-  if [ "$p" -eq 4 ]; then
-    grep -E 'Best tour length:' _run.txt | tail -n1 > best_summary.txt
-    grep -E '^Best tour:' _run.txt | tail -n1 | sed 's/^Best tour: //' > best_route.txt
-    cp _run.txt last_run.txt
+  if [[ -z "${sec:-}" ]]; then
+    echo "[error] could not parse elapsed time for p=$p" >&2
+    exit 2
   fi
+
+  echo "$p,$sec" >> "$OUT"
 done
+
+echo "Wrote $OUT"
