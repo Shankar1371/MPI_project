@@ -1,326 +1,316 @@
-# Parallel Hybrid Genetic Algorithm for the Traveling Salesman Problem (TSP)
+This document explains, in simple words, everything contained in the project’s README. It describes the project goal, structure, datasets, how to run the code, how to benchmark it, how to generate plots, and how each script is used.
 
-This project implements an MPI-based parallel **Hybrid Genetic Algorithm (GA)** for the Traveling Salesman Problem.  
-It follows an island model where each MPI process (island) evolves its own population and periodically migrates elite tours to the other islands.  
-A 2-opt local search step can be enabled to refine tours.
+1. Project Overview
 
-The implementation is designed for experiments with different process counts (p = 1, 2, 4, 8, 16, 32) and fixed generation count (typically 50), measuring:
+This project implements a Parallel Hybrid Genetic Algorithm (GA) for solving the Traveling Salesman Problem (TSP).
+It uses MPI (Message Passing Interface) to run the GA across multiple processes using an island model.
 
-- Best tour length (solution quality)
-- Runtime and time per generation
-- Parallel speedup and efficiency
+Each process maintains its own population and periodically exchanges elite individuals with other processes (migration).
+The goal is to test the scalability of the GA with different numbers of processes:
 
----
+p = 1
 
-## Features
+p = 2
 
-- Island-model parallel GA using **MPI**
-- Operators:
-  - Tournament selection (k = 4)
-  - PMX crossover (robust, permutation-safe)
-  - Inversion mutation
-  - Optional 2-opt local search
-- Configurable parameters via command line:
-  - Population size per island
-  - Number of generations
-  - Crossover and mutation rates
-  - Migration interval
-  - 2-opt on/off
-  - Random seed
-- Robust TSP loader:
-  - Simple “N + coordinates” format
-  - Works with converted TSPLIB instances
-- Benchmark scripts:
-  - `bench.sh` automatically runs p = 1,2,4,8,16,32 and logs runtimes to CSV
-  - `plot_speedup.py` plots speedup and efficiency
-  - `plot_gen_time.py` plots **time per generation vs processes**
-- Tour plotting:
-  - `plot_tour.py` draws the best tour route over the city coordinates
-- Multi-dataset support:
-  - `berlin52`, `d198`, `pr439`, `pr1002`
+p = 4
 
----
+p = 8
 
-## Project Structure
+p = 16
 
+p = 32
+
+The algorithm is tested using four TSPLIB datasets:
+
+berlin52 (52 cities)
+
+d198 (198 cities)
+
+pr439 (439 cities)
+
+pr1002 (1002 cities)
+
+The primary evaluation metrics include:
+
+Best tour length (solution quality)
+
+Runtime for 50 generations
+
+Speedup
+
+Efficiency
+
+Time per generation
+
+The results are visualized using various plots.
+
+2. Key Features of the Algorithm
+
+The project’s GA implements:
+
+Tournament selection (k = 4)
+
+PMX crossover (permutation-safe)
+
+Inversion mutation
+
+Optional 2-opt local search
+
+Island-based parallelism using MPI
+
+Migration of elite tours every few generations
+
+Configurable population size, generations, crossover rate, mutation rate
+
+3. Project Folder Structure
 mpi-project/
 ├── src/
-│   ├── main.c            # argument parsing, MPI setup, top-level driver
-│   ├── ga.c              # serial GA logic and operators (PMX, mutation, 2-opt)
+│   ├── main.c
+│   ├── ga.c
 │   ├── ga.h
-│   ├── parallel_ga.c     # MPI island model, migration, global best reduction
-│   └── parallel_ga.h
+│   ├── parallel_ga.c
+│   ├── parallel_ga.h
 ├── data/
-│   ├── berlin52.txt      # 52-city instance (converted from TSPLIB)
-│   ├── d198.txt          # 198-city instance
-│   ├── pr439.txt         # 439-city instance
-│   └── pr1002.txt        # 1002-city instance (converted from TSPLIB)
+│   ├── berlin52.txt
+│   ├── d198.txt
+│   ├── pr439.txt
+│   ├── pr1002.txt
+├── bench.sh
+├── report_best.sh
+├── plot_speedup.py
+├── plot_gen_time.py
+├── plot_tour.py
 ├── Makefile
-├── bench.sh              # benchmark script, p = 1,2,4,8,16,32 → CSV
-├── report_best.sh        # runs each dataset once (gens=50) and prints best tours
-├── plot_speedup.py       # speedup / efficiency plots from CSV
-├── plot_gen_time.py      # time-per-generation vs processes plots from CSV
-├── plot_tour.py          # draw best tour for a dataset
 └── README.md
 
 
-## Dataset Format
-The GA uses a simple coordinate format:
+Explanation:
 
+main.c
+Handles MPI initialization, argument parsing, running the GA, printing the best tour.
 
-Copy code
+ga.c / ga.h
+Implements the serial GA operators (selection, crossover, mutation, 2-opt).
+
+parallel_ga.c / parallel_ga.h
+Implements parallel execution, migration, and global reduction.
+
+data/
+Contains converted TSPLIB datasets in simple "N + coordinates" format.
+
+bench.sh
+Runs the GA for p = 1,2,4,8,16,32 (50 generations), writes CSV results.
+
+plot_speedup.py
+Creates speedup and efficiency graphs.
+
+plot_gen_time.py
+Creates time-per-generation vs processor-count graphs.
+
+plot_tour.py
+Draws the best tour’s route with coordinates.
+
+Makefile
+Builds the project.
+
+4. Dataset Format
+
+Your GA uses a simple input format:
+
 N
 x0 y0
 x1 y1
+x2 y2
 ...
-x(N-1) y(N-1)
-Example (berlin52.txt):
 
-text
-Copy code
+
+where N = number of cities.
+
+All TSPLIB .tsp files must be converted to this format.
+
+Example:
+
 52
 565 575
 25 185
 345 750
-945 685
 ...
-All TSPLIB .tsp instances (e.g., berlin52.tsp, d198.tsp, pr439.tsp, pr1002.tsp) are first converted to this format and stored as .txt inside data/.
-
-### Best known tour lengths (from the assignment):
-
-berlin52.tsp: 7542
-
-d198.tsp: 15780
-
-pr439.tsp: 107217
-
-pr1002.tsp: 259045
-
-The GA’s results can be compared against these reference values.
-
-### Building
-Inside WSL/Ubuntu:
 
 
-sudo apt update
-sudo apt install -y build-essential openmpi-bin libopenmpi-dev python3-venv
+You now have:
 
+berlin52.txt
 
-### Clone and build:
+d198.txt
+
+pr439.txt
+
+pr1002.txt
+
+in the correct format.
+
+5. How to Build the Project
+
+Inside your WSL terminal:
+
 make clean && make
 
-### This produces the executable:
+
+This creates the executable:
 
 ./tsp
 
+6. Running the Genetic Algorithm
 
-### Running the Parallel GA
-General form:
+General usage:
+
+mpirun --oversubscribe -np P ./tsp data/<dataset.txt> [options]
 
 
-mpirun --oversubscribe -np <p> ./tsp <dataset> [options...]
 Important options:
 
---pop <N> population size per island
+--pop N → population per island
 
---generations <G> number of generations
+--generations G → number of generations
 
---mig-int <k> migration interval in generations (0 = disabled)
+--mig-int K → migration interval
 
---no-twoopt disable 2-opt local search
+--no-twoopt → disable 2-opt
 
---cx <rate> crossover rate (default 0.8)
+--save-route file → save best tour permutation to a file
 
---mut <rate> mutation rate (default 0.05)
-
---seed <s> random seed
-
---save-route <file> write the best tour permutation to a file
-
-### Example: small run on berlin52:
-
+Example:
 
 mpirun --oversubscribe -np 4 ./tsp data/berlin52.txt \
-  --generations 50 \
-  --pop 200 \
-  --mig-int 50 \
-  --save-route route_berlin52.txt
+  --generations 50 --pop 200 --mig-int 50 --save-route route_berlin52.txt
 
+7. Script: report_best.sh
 
-### Typical console output:
+This script runs each dataset once (gens=50) and prints:
 
+Progress best every 10 generations
 
-Parallel GA TSP | islands=4, pop/island=200, gens=50, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
-Dataset: data/berlin52.txt
-[load] opening data/berlin52.txt
-[load] n=52
-[load] coords read ok; building dist matrix...
-[load] done
-[run] islands=4 pop/island=200 gens=50 twoopt=1 migInt=50
-[run] gen=10 best=7544.365902
-[run] gen=20 best=7544.365902
-...
-[run] gen=50 best=7544.365902
-Best tour length: 7544.365902
-Elapsed (parallel, p=4): 0.0277 s
-Best tour: 21 0 48 31 44 18 40 ...
-One-Shot Best-Tour Experiments (gens = 50)
-To match the project requirement of 50 generations per dataset, the script report_best.sh runs:
+Final best tour length
 
-pr439.txt with gens=50
+Best tour permutation
 
-berlin52.txt with gens=50
+It covers:
 
-d198.txt with gens=50
+berlin52
 
-pr1002.txt with gens=50
+d198
 
-### Example:
+pr439
 
-chmod +x report_best.sh
+pr1002
+
+Run it with:
+
 ./report_best.sh
- 
 
-This prints, for each dataset:
+8. Script: bench.sh (Updated)
 
-Dataset name
+This script generates the data required for graphs by running:
 
-Number of cities
-
-Progress of best fitness every 10 generations
-
-Final best tour length and best tour permutation
-
-You can compare these lengths with the known best values given above.
-
-#### Benchmarking: p = 1, 2, 4, 8, 16, 32 (gens = 50)
-To measure scaling, use the updated bench.sh:
+p = 1, 2, 4, 8, 16, 32
 
 
-chmod +x bench.sh
+for each dataset with 50 generations and writing:
 
-# 50 generations are hard-coded inside bench.sh
-./bench.sh data/berlin52.txt 400  results_berlin52.csv
-./bench.sh data/d198.txt     800  results_d198.csv
-./bench.sh data/pr439.txt    800  results_pr439.csv
-./bench.sh data/pr1002.txt   800  results_pr1002.csv
-
-
-#### Each CSV will contain:
-
-text
-Copy code
 p,elapsed
-1,0.1285
-2,0.0701
-4,0.0332
-8,0.0475
-16, ...
-32, ...
-where elapsed is the total runtime (seconds) for 50 generations.
 
-Python Environment for Plots
-Create a small plotting virtual environment:
 
-bash
-Copy code
+to a CSV file.
+
+Example:
+
+./bench.sh data/berlin52.txt 400 results_berlin52.csv
+./bench.sh data/pr1002.txt 800 results_pr1002.csv
+
+9. Python Environment for Plotting
+
+Create a virtual environment called .plots:
+
 python3 -m venv .plots
 source .plots/bin/activate
 pip install --upgrade pip
 pip install pandas matplotlib
-All plotting commands below assume this environment is activated ((.plots) in the shell prompt).
 
-Speedup and Efficiency Plots
-You can turn the results_*.csv files into speedup and efficiency plots:
+10. Speedup & Efficiency Plots
 
-bash
-Copy code
+Convert the benchmark CSVs into graphs:
+
 python3 plot_speedup.py results_berlin52.csv berlin52
-python3 plot_speedup.py results_d198.csv     d198
-python3 plot_speedup.py results_pr439.csv    pr439
-python3 plot_speedup.py results_pr1002.csv   pr1002
-Each call will print the derived columns and save:
+python3 plot_speedup.py results_d198.csv d198
+python3 plot_speedup.py results_pr439.csv pr439
+python3 plot_speedup.py results_pr1002.csv pr1002
 
-<prefix>_speedup.png
 
-<prefix>_efficiency.png
+Generates:
 
-Speedup is defined as:
+<dataset>_speedup.png
 
-text
-Copy code
-S(p)  = T1 / Tp
-Efficiency:
+<dataset>_efficiency.png
 
-text
-Copy code
-E(p)  = S(p) / p
-Time-Per-Generation vs Processes (New Plot)
-To directly show how time per generation changes with the number of processes, use:
+11. Time-per-Generation vs Processes Plot
 
-bash
-Copy code
+To study scalability deeper:
+
 python3 plot_gen_time.py results_berlin52.csv 50 berlin52
-python3 plot_gen_time.py results_d198.csv     50 d198
-python3 plot_gen_time.py results_pr439.csv    50 pr439
-python3 plot_gen_time.py results_pr1002.csv   50 pr1002
-This script:
-
-Reads p,elapsed from the CSV
-
-Computes gen_time = elapsed / generations
-
-Produces <prefix>_gen_time.png with:
-
-x-axis: processes p (1, 2, 4, 8, 16, 32)
-
-y-axis: time per generation in seconds
-
-You can use these plots to analyze scalability for each dataset separately.
-
-Plotting the Best Tour Route
-After running ./tsp with --save-route, you can visualize the tour:
+python3 plot_gen_time.py results_pr1002.csv 50 pr1002
 
 
-# Example for berlin52
+Generates:
+
+<dataset>_gen_time.png
+
+12. Plotting Best Tour Paths
+
+After saving the route:
+
 mpirun --oversubscribe -np 4 ./tsp data/berlin52.txt \
-  --generations 50 --pop 200 --mig-int 50 \
-  --save-route route_berlin52.txt
+  --generations 50 --pop 200 --mig-int 50 --save-route route_berlin52.txt
+
+
+Now draw the actual tour:
 
 python3 plot_tour.py data/berlin52.txt route_berlin52.txt berlin52_tour.png
 
 
-### The resulting image shows:
+Works for all datasets.
 
-City coordinates as points
+13. Known Best (Reference) Tour Lengths
 
-The best tour as a polygonal path
+For comparison with assignment values:
 
-Reported tour length in the title
+berlin52: 7542
 
-Repeat for d198, pr439, and pr1002 using their respective route files.
+d198: 15780
 
-Implementation Notes
-The TSP loader is robust to comments and blank lines, and precomputes a full distance matrix for speed.
+pr439: 107217
 
-The PMX crossover and inversion mutation are implemented in a permutation-safe way and include checks against invalid offspring.
+pr1002: 259045
 
-Migration uses an island model:
+Your GA may not reach perfect optimal values with only 50 generations — that is expected.
 
-Each island evolves independently for several generations.
+14. Rebuilding
 
-Every migration_interval generations, the top 5% individuals are gathered and the global best tour is broadcast back to all islands.
-
-2-opt can be computationally expensive for large instances (especially pr1002), so population sizes and process counts may need tuning.
-
-### How to Rebuild After Code Changes
-Whenever you update *.c or *.h files:
-  
+After modifying any .c or .h file:
 
 make clean && make
-Environment and Assumptions
-Tested on WSL2 / Ubuntu with OpenMPI.
 
-Source and data files live inside the Linux filesystem (e.g., /home/.../mpi-project), not under /mnt/c/... to avoid MPI I/O overhead.
+15. Requirements and Notes
 
-Plots are generated using a small local Python venv (.plots) to keep dependencies isolated.
+Must run inside WSL/Linux filesystem (not /mnt/c/)
+
+Requires OpenMPI
+
+Python plotting done inside .plots venv
+
+2-opt is expensive for large datasets (e.g., pr1002)
+
+End of README Explanation
+
+If you want, I can generate this as an actual .txt file using the file generator — just say:
+
+"Create the README explanation txt file"
