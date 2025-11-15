@@ -175,6 +175,56 @@ d198.txt with gens=50
 
 pr1002.txt with gens=50
 
+# to see all the outputs see the output.... .txt file that has the data from the terminal
+
+#command
+
+bash -c '
+GENS=50
+
+run_dataset () {
+  dataset=$1
+  pop=$2
+  outfile=$3
+
+  echo "=== Running $dataset ==="
+  echo "" > "$outfile"
+
+  for p in 1 2 4 8 16 32; do
+    echo "---------------------------------------" | tee -a "$outfile"
+    echo ">>> DATASET: $dataset   (p=$p)" | tee -a "$outfile"
+    echo "---------------------------------------" | tee -a "$outfile"
+
+    mpirun --oversubscribe -np "$p" ./tsp "data/$dataset.txt" \
+      --generations "$GENS" \
+      --pop "$pop" \
+      --mig-int 50 \
+      --cx 0.8 \
+      --mut 0.05 \
+      --k 4 \
+      2>&1 | tee -a "$outfile"
+
+    echo "" | tee -a "$outfile"
+  done
+}
+
+run_dataset "berlin52" 200 "output_berlin52.txt"
+run_dataset "d198" 400 "output_d198.txt"
+run_dataset "pr439" 800 "output_pr439.txt"
+run_dataset "pr1002" 1200 "output_pr1002.txt"
+
+echo "===================================="
+echo "All datasets complete!"
+echo "Generated:"
+echo " output_berlin52.txt"
+echo " output_d198.txt"
+echo " output_pr439.txt"
+echo " output_pr1002.txt"
+echo "===================================="
+'
+
+
+
 ### Example:
 
 chmod +x report_best.sh
