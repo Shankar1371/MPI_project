@@ -1,0 +1,67 @@
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+Parallel GA TSP | islands=16, pop/island=200, gens=50, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: data/pr1002.txt
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] n=1002
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[run] islands=16 pop/island=200 gens=50 twoopt=1 migInt=50
+[load] done
+[load] done
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] opening data/pr1002.txt
+[load] n=1002
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done

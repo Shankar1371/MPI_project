@@ -1,0 +1,27 @@
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] opening data/berlin52.txt
+[load] n=52
+[load] done
+[load] opening data/berlin52.txt
+[load] n=52
+[load] coords read ok; building dist matrix...
+Parallel GA TSP | islands=4, pop/island=200, gens=50, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: data/berlin52.txt
+[load] opening data/berlin52.txt
+[load] coords read ok; building dist matrix...
+[load] n=52
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[run] islands=4 pop/island=200 gens=50 twoopt=1 migInt=50
+[run] gen=10 best=7544.365902
+[run] gen=20 best=7544.365902
+[run] gen=30 best=7544.365902
+[run] gen=40 best=7544.365902
+[run] gen=50 best=7544.365902
+Best tour length: 7544.365902
+Elapsed (parallel, p=4): 0.0278 s
+Best tour: 21 0 48 31 44 18 40 7 8 9 42 32 50 10 51 13 12 46 25 26 27 11 24 3 5 14 4 23 47 37 36 39 38 35 34 33 43 45 15 28 49 19 22 29 1 6 41 20 16 2 17 30 

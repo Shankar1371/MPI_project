@@ -1,0 +1,139 @@
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] done
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] done
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+Parallel GA TSP | islands=32, pop/island=200, gens=50, cx=0.80, mut=0.05, k=4, migInt=50, twoopt=1
+Dataset: data/d198.txt
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[load] done
+[load] opening data/d198.txt
+[load] done
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] done
+[load] coords read ok; building dist matrix...
+[load] done
+[run] islands=32 pop/island=200 gens=50 twoopt=1 migInt=50
+[load] opening data/d198.txt
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] done
+[load] done
+[load] done
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] done
+[load] opening data/d198.txt
+[load] n=198
+[load] opening data/d198.txt
+[load] n=198
+[load] coords read ok; building dist matrix...
+[load] coords read ok; building dist matrix...
+[load] done
+[load] done
+[run] gen=10 best=16004.791134
+[run] gen=20 best=16004.791134
+[run] gen=30 best=16004.791134
+[run] gen=40 best=15939.468027
+[run] gen=50 best=15844.890294
+Best tour length: 15844.890294
+Elapsed (parallel, p=32): 10.9596 s
+Best tour: 115 120 121 114 103 102 101 92 93 100 94 95 89 88 96 97 87 82 81 73 65 60 53 44 43 54 55 58 59 66 67 71 72 69 83 86 98 99 85 84 70 68 57 56 42 41 40 12 11 10 9 8 7 4 3 2 5 6 1 0 39 13 14 15 16 17 18 19 20 24 23 21 22 27 29 28 31 30 37 36 35 32 33 26 25 34 38 46 50 51 45 52 61 74 64 80 75 76 77 63 49 47 48 62 78 79 90 91 104 113 112 111 105 106 110 109 108 107 166 167 181 182 180 175 172 173 174 176 177 179 183 184 178 193 194 197 196 195 186 185 192 191 190 187 188 189 170 171 165 164 163 162 150 149 144 143 136 127 169 126 128 135 134 140 142 145 148 151 161 160 159 152 147 146 141 139 133 131 132 129 130 125 124 168 123 137 158 157 156 155 154 153 138 122 119 118 117 116 
